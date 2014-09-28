@@ -25,8 +25,6 @@ Describe "When in a git repo with posh-git installed" {
     Mock -ModuleName PSPowerline Get-GitStatus { return $true; }
     
     Context "And neither posh-hg nor posh-svn are installed" {
-        Get-HgStatus = $null
-        Get-SvnStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -35,7 +33,6 @@ Describe "When in a git repo with posh-git installed" {
     
     Context "And posh-hg is installed" {
         Mock -ModuleName PSPowerline Get-HgStatus { return $false; }
-        Get-SvnStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -44,7 +41,6 @@ Describe "When in a git repo with posh-git installed" {
     
     Context "And posh-svn is installed" {
         Mock -ModuleName PSPowerline Get-SvnStatus { return $false; }
-        Get-HgStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -65,7 +61,7 @@ Describe "When in a hg repo with posh-hg installed" {
     Mock -ModuleName PSPowerline Get-HgStatus { return $true; }
     
     Context "And neither posh-git nor posh-svn are installed" {
-        
+
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
         }
@@ -73,7 +69,6 @@ Describe "When in a hg repo with posh-hg installed" {
     
     Context "And posh-git is installed" {
         Mock -ModuleName PSPowerline Get-GitStatus { return $false; }
-        Get-SvnStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -82,7 +77,6 @@ Describe "When in a hg repo with posh-hg installed" {
     
     Context "And posh-svn is installed" {
         Mock -ModuleName PSPowerline Get-SvnStatus { return $false; }
-        Get-GitStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -103,8 +97,6 @@ Describe "When in a svn repo with posh-svn installed" {
     Mock -ModuleName PSPowerline Get-SvnStatus { return $true; }
     
     Context "And neither posh-git nor posh-hg are installed" {
-        Get-GitStatus = $null
-        Get-HgStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -113,7 +105,6 @@ Describe "When in a svn repo with posh-svn installed" {
     
     Context "And posh-git is installed" {
         Mock -ModuleName PSPowerline Get-GitStatus { return $false; }
-        Get-HgStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
@@ -122,7 +113,6 @@ Describe "When in a svn repo with posh-svn installed" {
     
     Context "And posh-hg is installed" {
         Mock -ModuleName PSPowerline Get-HgStatus { return $false; }
-        Get-GitStatus = $null
         
         It "Returns a positive status" {
             Get-VcsStatus | Should Be $true
