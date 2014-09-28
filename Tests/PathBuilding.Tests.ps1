@@ -3,7 +3,7 @@ Import-Module "$ROOT\..\PSPowerLine.psm1"
 
 Describe "Get-Provider" {
     if ($env:CI) {
-        Mock Get-Home { return "c:/User/" }
+        Mock -ModuleName PSPowerline Get-Home { return "c:/User/" }
     }
     
     Context "Determining the provider" {
@@ -27,7 +27,7 @@ Describe "Get-Provider" {
 
 Describe "UNC Shares" {
     if ($env:CI) {
-        Mock Get-Home { return "c:/User/" }
+        Mock -ModuleName PSPowerline Get-Home { return "c:/User/" }
     }
 
     Context "When navigated to a UNC share" {
@@ -45,7 +45,7 @@ Describe "UNC Shares" {
 
 Describe "Drive Directories" {
     if ($env:CI) {
-        Mock Get-Home { return "c:/User/" }
+        Mock -ModuleName PSPowerline Get-Home { return "c:/User/" }
     }
     
     Context "When in the C:\Windows\system32 directory" {
@@ -60,7 +60,7 @@ Describe "Drive Directories" {
 
 Describe "PowerShell non-FileSystem Providers" {
     if ($env:CI) {
-        Mock Get-Home { return "c:/User/" }
+        Mock -ModuleName PSPowerline Get-Home { return "c:/User/" }
     }
 
     Context "When in the cert provider"{
