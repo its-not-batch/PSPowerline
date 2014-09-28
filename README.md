@@ -1,5 +1,5 @@
 # *PSPowerline* #
-[![Build status](https://ci.appveyor.com/api/projects/status/hqfasiaifq2kl0r4)](https://ci.appveyor.com/project/chrisbenti/pspowerline)
+[![Build status](https://ci.appveyor.com/api/projects/status/imiy83nolslj5khc/branch/master)](https://ci.appveyor.com/project/chrisbenti/pspowerline/branch/master)
 
 PSPowerline is a PowerShell module that creates a prompt similar to a very popular [Oh-My-ZSH Theme](https://gist.github.com/agnoster/3712874).
 
