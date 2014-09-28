@@ -1,5 +1,5 @@
 $ROOT = Split-Path -Parent $MyInvocation.MyCommand.Path
-. "$ROOT\..\Microsoft.PowerShell_profile.ps1"
+Import-Module "$ROOT\..\PSPowerLine.psm1"
 
 Describe "Get-Provider" {
     if ($env:CI) {
