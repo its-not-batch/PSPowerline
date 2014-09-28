@@ -1,24 +1,4 @@
 ##############################################################################
-############################### Module Imports ###############################
-##############################################################################
-Import-Module -Name PsGet
-Import-Module -Name PSUrl
-Import-Module -Name Aliases
-Import-Module -Name PowerTab
-Import-Module -Name SyncMeUp
-Import-Module -Name Work -ErrorAction SilentlyContinue
-Import-Module -Name posh-git -ErrorAction SilentlyContinue
-Import-Module -Name posh-hg -ErrorAction SilentlyContinue
-Import-Module -Name posh-svn -ErrorAction SilentlyContinue
-##############################################################################
-############################### Module Imports ###############################
-##############################################################################
-
-
-
-
-
-##############################################################################
 ################################## Constants #################################
 ##############################################################################
 $FANCY_SPACER = [char]11136
@@ -38,6 +18,7 @@ $colors["red"] = ([ConsoleColor]::Red, [ConsoleColor]::DarkRed)
 $colors["magenta"] = ([ConsoleColor]::Magenta, [ConsoleColor]::DarkMagenta)
 $colors["yellow"] = ([ConsoleColor]::Yellow, [ConsoleColor]::DarkYellow)
 $colors["gray"] = ([ConsoleColor]::White, [ConsoleColor]::DarkGray)
+$driveColor = $DRIVE_DEFAULT_COLOR
 ##############################################################################
 ################################## Constants #################################
 ##############################################################################
@@ -49,29 +30,6 @@ $colors["gray"] = ([ConsoleColor]::White, [ConsoleColor]::DarkGray)
 ##############################################################################
 ################################# Main Methods ###############################
 ##############################################################################
-<#
-.SYNOPSIS
-Method called at each launch of Powershell
-
-.DESCRIPTION
-Sets up things needed in each console session, asside from prompt
-#>
-function Start-Up{
-    if(Test-Path -Path ~\.last) {
-        (Get-Content -Path ~\.last) | set-location
-       Remove-Item -Path ~\.last
-    }
-
-    # Makes git diff work
-    $env:TERM = "msys"
-    
-    if(Get-Module Posh-Git) {
-        Start-SshAgent -Quiet
-    }
-}
-
-$driveColor = $DRIVE_DEFAULT_COLOR
-
 <#
 .SYNOPSIS
 Generates the prompt before each line in the console
@@ -290,10 +248,3 @@ function Colors {
 ##############################################################################
 ################################ Helper Methods ##############################
 ##############################################################################
-
-
-
-
-
-Start-Up # Executes the Start-Up function, better encapsulation
-Set-Alias -Name subl -Value "C:\Program Files\Sublime Text 3\sublime_text.exe"
