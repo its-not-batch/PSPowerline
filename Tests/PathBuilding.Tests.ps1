@@ -58,8 +58,19 @@ Describe "Drive Directories" {
                 Get-Drive "C:\Windows\System32" | Should be "C:\"
             }
             It "Shorten-Path returns all parts after the C:\" {
+                mkdir "$($env:temp)\a" -ErrorAction Ignore
                 Shorten-Path "C:\Windows\System32" | Should Be "Win\System32"   
             }
+        }
+
+        Context "Shorten-Path should handle short (<2) directory names" {
+            It "Shorten-Path can handle short folder names" {
+                mkdir "C:\fn" -ErrorAction Ignore
+                mkdir "C:\fn\fn" -ErrorAction Ignore
+                Shorten-Path "C:\fn\fn" | Should be "fn\fn"
+            }
+            rm "C:\fn\fn"
+            rm "C:\fn" -ErrorAction Ignore
         }
     }
 }

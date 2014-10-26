@@ -216,7 +216,11 @@ function Shorten-Path([string] $path) {
             if( (Is-VCSRoot $dir) -Or ($result.length -eq 0) ) {
                 $result = ,$dir.Name + $result
             } else {
-                $result = ,$dir.Name.Substring(0, $SHORT_FOLDER_NAME_SIZE) + $result
+                if($dir.Name.length -gt $SHORT_FOLDER_NAME_SIZE){
+                   $result = ,$dir.Name.Substring(0, $SHORT_FOLDER_NAME_SIZE) + $result
+                } else {
+                    $result = ,$dir.Name + $result
+                }
             }
 
             $dir = $dir.Parent
