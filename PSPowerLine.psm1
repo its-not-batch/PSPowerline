@@ -8,7 +8,7 @@ $FANCY_X = [char]10008
 $DRIVE_DEFAULT_COLOR = "gray"
 $GIT_COLOR_DEFAULT = "green"
 
-$SHORT_FOLDER_NAME_SIZE = 3
+$global:PSPL:Num_Chars = 3
 
 $colors = @{}
 $colors["blue"] = ([ConsoleColor]::Cyan, [ConsoleColor]::DarkBlue)
@@ -216,8 +216,8 @@ function Shorten-Path([string] $path) {
             if( (Is-VCSRoot $dir) -Or ($result.length -eq 0) ) {
                 $result = ,$dir.Name + $result
             } else {
-                if($dir.Name.length -gt $SHORT_FOLDER_NAME_SIZE){
-                   $result = ,$dir.Name.Substring(0, $SHORT_FOLDER_NAME_SIZE) + $result
+                if($dir.Name.length -gt $global:PSPL:Num_Chars){
+                   $result = ,$dir.Name.Substring(0, $global:PSPL:Num_Chars) + $result
                 } else {
                     $result = ,$dir.Name + $result
                 }

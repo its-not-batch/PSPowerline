@@ -91,3 +91,24 @@ Describe "PowerShell non-FileSystem Providers" {
         }
     }
 }
+
+Describe "Customizable shortened number of chars" {
+    InModuleScope PSPowerline {
+        if ($env:CI) {
+            Mock -ModuleName PSPowerline Get-Home { return "c:/User/" }
+        }
+
+        Context "When in the C:\Windows\system32 directory with Num_Chars set to 2" {
+            $orig = $global:PSPL:Num_Chars
+            $global:PSPL:Num_Chars = 2
+            It "Get-Drive returns C:\" {    
+                Get-Drive "C:\Windows\System32" | Should be "C:\"
+            }
+            It "Shorten-Path returns all parts after the C:\" {
+                mkdir "$($env:temp)\a" -ErrorAction Ignore
+                Shorten-Path "C:\Windows\System32" | Should Be "Wi\System32"   
+            }
+            $global:PSPL:Num_Chars = $orig
+        }    
+    }
+}   
