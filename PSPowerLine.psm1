@@ -83,6 +83,9 @@ function Prompt {
         Write-Colors $lastColor $FANCY_SPACER -invert -noB 
     }
 
+    Write-Host
+    Write-Colors "green" $([char]0x03BB) -noBackground
+
     return " " 
 } 
 ##############################################################################
