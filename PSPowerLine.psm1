@@ -57,12 +57,13 @@ function Prompt {
         "Cert:\"    { $driveColor = "green" }        
     }
 
-    $lastColor = $driveColor
+    Write-Colors "cyan" " $($env:COMPUTERNAME) "
+    Write-Host $FANCY_SPACER -ForegroundColor $colors["cyan"][1] -BackgroundColor $colors[$driveColor][1] -NoNewline
 
-    # PowerLine starts with a space
-    if(-not (Vanilla-Window)){ Write-Colors $driveColor " "}
+    $lastColor = $driveColor    
 
     # Writes the drive portion
+    Write-Colors $driveColor " "    
     Write-Colors $driveColor "$drive"
     Write-Colors $driveColor (Shorten-Path (Get-Location).Path)
     Write-Colors $driveColor " "
