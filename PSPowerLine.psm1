@@ -1,12 +1,25 @@
 ##############################################################################
 ################################## Constants #################################
 ##############################################################################
-$FANCY_SPACER = [char]11136
-$GIT_BRANCH = [char]11104
-$FANCY_X = [char]10008
+$FANCY_SPACER = [char]0xe0b0
+if (Test-Path Env:\PsPowerline_FancySpacerChar) {
+    $FANCY_SPACER = $env:PsPowerline_FancySpacerChar
+}
+
+$GIT_BRANCH = [char]0xe0a0
+if (Test-Path Env:\PsPowerline_BranchChar) {
+    $GIT_BRANCH = $env:PsPowerline_BranchChar
+}
 
 $DRIVE_DEFAULT_COLOR = "gray"
+if (Test-Path Env:\PsPowerline_DefaultDriveColor) {
+    $DRIVE_DEFAULT_COLOR = $env:PsPowerline_DefaultDriveColor
+}
+
 $GIT_COLOR_DEFAULT = "green"
+if (Test-Path Env:\PsPowerline_DefaultGitColor) {
+    $GIT_COLOR_DEFAULT = $env:PsPowerline_DefaultGitColor
+}
 
 $global:PSPL:Num_Chars = 3
 
@@ -37,18 +50,20 @@ Generates the prompt before each line in the console
 function Prompt { 
     $drive = (Get-Drive (Get-Location).Path)
     
-    switch -wildcard ($drive){
-        "C:\" { $driveColor = "blue" }
-        "~\"  { $driveColor = "blue"}
-        "\\*" { $driveColor = "magenta" }
+    switch -wildcard ($drive) {
+        "C:\"       { $driveColor = "blue" }
+        "~\"        { $driveColor = "blue" }
+        "\\*"       { $driveColor = "magenta" }
+        "Cert:\"    { $driveColor = "green" }        
     }
 
-    $lastColor = $driveColor
+    Write-Colors "cyan" " $($env:COMPUTERNAME) "
+    Write-Host $FANCY_SPACER -ForegroundColor $colors["cyan"][1] -BackgroundColor $colors[$driveColor][1] -NoNewline
 
-    # PowerLine starts with a space
-    if(-not (Vanilla-Window)){ Write-Colors $driveColor " "}
+    $lastColor = $driveColor    
 
     # Writes the drive portion
+    Write-Colors $driveColor " "    
     Write-Colors $driveColor "$drive"
     Write-Colors $driveColor (Shorten-Path (Get-Location).Path)
     Write-Colors $driveColor " "
@@ -68,6 +83,9 @@ function Prompt {
     } else {
         Write-Colors $lastColor $FANCY_SPACER -invert -noB 
     }
+
+    Write-Host
+    Write-Colors "green" $([char]0x03BB) -noBackground
 
     return " " 
 } 
@@ -152,7 +170,6 @@ function Write-Colors{
 }
 
 
-
 function Vanilla-Window{
     if($env:PROMPT -or $env:ConEmuANSI){
         # Console
@@ -174,8 +191,8 @@ function Get-Provider( [string] $path ){
 }
 
 
-
 function Get-Drive( [string] $path ) {
+
     $provider = Get-Provider $path
 
     if($provider -eq "FileSystem"){
@@ -193,6 +210,8 @@ function Get-Drive( [string] $path ) {
                 return $path.Split(":\")[0] + ":\"
             }
         }
+    } elseif ($path.StartsWith("Cert:\")) {
+        return "Cert:\"
     } else {
         return (Get-Item $path).PSDrive.Name + ":\"
     } 
